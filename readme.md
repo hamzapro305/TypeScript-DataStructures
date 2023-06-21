@@ -24,4 +24,4 @@
 Install the library using npm:
 
 ```shell
-npm install my-datastructures-library
+Currently not available as library
