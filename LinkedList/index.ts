@@ -29,9 +29,7 @@ export class LinkedList<T> {
             this.size++;
             return;
         }
-        while (temp?.getNext() != null) {
-            temp = temp.getNext();
-        }
+        while (temp?.getNext() != null) temp = temp.getNext();
         temp?.setNext(new Node<T>(data, null));
         this.size++;
     };
@@ -59,14 +57,10 @@ export class LinkedList<T> {
 
     public at = (index: number): T => {
         let temp = this.head;
-        if (temp == null) {
-            throw new Error("Linked List empty error");
-        }
+        if (temp == null) throw new Error("Linked List empty error");
         let i: number = 0;
         do {
-            if (i === index) {
-                return temp.getData();
-            }
+            if (i === index) return temp.getData();
             temp = temp.getNext();
             i++;
         } while (temp != null);
@@ -94,6 +88,17 @@ export class LinkedList<T> {
             callBack(temp.getData(), index);
             temp = temp.getNext();
         }
+    };
+
+    public map = (callBack: (data: T, index: number) => T): T[] => {
+        let temp = this.head;
+        let arr: T[] = [];
+        let index: number = 0;
+        while (temp != null) {
+            arr.push(callBack(temp.getData(), index));
+            temp = temp.getNext();
+        }
+        return arr;
     };
 
     public getSize = (): number => this.size + 1;

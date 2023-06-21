@@ -1,0 +1,20 @@
+add(element): Adds an element to the end of the list.
+add(index, element): Inserts an element at the specified position in the list.
+get(index): Retrieves the element at the specified index in the list.
+remove(index): Removes the element at the specified index from the list.
+size(): Returns the number of elements in the list.
+clear(): Removes all elements from the list.
+isEmpty(): Checks if the list is empty.
+contains(element): Checks if the list contains the specified element.
+indexOf(element): Returns the index of the first occurrence of the specified element in the list.
+lastIndexOf(element): Returns the index of the last occurrence of the specified element in the list.
+toArray(): Returns an array containing all the elements in the list.
+iterator(): Returns an iterator over the elements in the list.
+listIterator(): Returns a list iterator over the elements in the list.
+addAll(collection): Appends all elements from the specified collection to the end of the list.
+removeFirst(): Removes and returns the first element in the list.
+removeLast(): Removes and returns the last element in the list.
+getFirst(): Returns the first element in the list.
+getLast(): Returns the last element in the list.
+peek(): Retrieves, but does not remove, the first element in the list.
+poll(): Retrieves and removes the first element in the list.
