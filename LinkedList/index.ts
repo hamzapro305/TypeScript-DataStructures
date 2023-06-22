@@ -1,105 +1,142 @@
 class Node<T> {
-    private data: T;
-    private next: Node<T> | null;
-    constructor(data: T, next: Node<T> | null) {
-        this.data = data;
-        this.next = next;
-    }
-    public getData = (): T => this.data;
-    public getNext = (): Node<T> | null => this.next;
-    public setData = (data: T): void => {
-        this.data = data;
-    };
-    public setNext = (next: Node<T> | null): void => {
-        this.next = next;
-    };
+	private data: T;
+	private next: Node<T> | null;
+	constructor(data: T, next: Node<T> | null) {
+		this.data = data;
+		this.next = next;
+	}
+	public getData = (): T => this.data;
+	public getNext = (): Node<T> | null => this.next;
+	public setData = (data: T): void => {
+		this.data = data;
+	};
+	public setNext = (next: Node<T> | null): void => {
+		this.next = next;
+	};
 }
 
 export class LinkedList<T> {
-    private head: Node<T> | null = null;
-    private size: number = 0;
-    constructor(data: T) {
-        this.head = new Node<T>(data, null);
-    }
+	private head: Node<T> | null = null;
+	private size: number = 0;
 
-    public push = (data: T): void => {
-        let temp = this.head;
-        if (this.head == null) {
-            this.head = new Node<T>(data, null);
-            this.size++;
-            return;
-        }
-        while (temp?.getNext() != null) temp = temp.getNext();
-        temp?.setNext(new Node<T>(data, null));
-        this.size++;
-    };
+	constructor(...data: T[]) {
+		this.push(...data);
+	}
 
-    public addAt = (data: T, index: number): void => {
-        let temp = this.head;
-        if (index == 0) {
-            let endPoint = this.head;
-            this.head = new Node<T>(data, endPoint);
-            this.size++;
-            return;
-        }
-        let i: number = 0;
-        while (temp != null) {
-            if (i + 1 == index) {
-                let endPoint = temp.getNext();
-                temp.setNext(new Node<T>(data, endPoint));
-                this.size++;
-                return;
-            }
-            i++;
-            temp = temp.getNext();
-        }
-    };
+	public push = (...data: T[]): void => {
+		if (data.length > 0) {
+			if (this.head == null) {
+				this.head = new Node<T>(data[0], null);
+				this.size++;
+				data = data.slice(1);
+			}
+			let EndNode = this.getEndNode();
+			data.forEach((Item) => {
+				EndNode.setNext(new Node<T>(Item, null));
+				this.size++;
+				EndNode = EndNode.getNext();
+			});
+		}
+	};
 
-    public at = (index: number): T => {
-        let temp = this.head;
-        if (temp == null) throw new Error("Linked List empty error");
-        let i: number = 0;
-        do {
-            if (i === index) return temp.getData();
-            temp = temp.getNext();
-            i++;
-        } while (temp != null);
-        throw new Error("Index out of bounds");
-    };
+	private getEndNode = (): Node<T> | null => {
+		if (this.head == null) return null;
+		let currentNode = this.head;
+		while (currentNode.getNext() != null) currentNode = currentNode.getNext();
+		return currentNode;
+	};
 
-    public printList = (): void => {
-        let temp = this.head;
-        let line: string = "";
-        if (temp == null) {
-            console.log("[]");
-            return;
-        }
-        do {
-            line += `${JSON.stringify(temp.getData())} -> `;
-            temp = temp.getNext();
-        } while (temp != null);
-        console.log(line.slice(0, -4));
-    };
+	public getNodeAt = (index: number): Node<T> | null => {
+		if (this.head === null) return null;
 
-    public forEach = (callBack: (data: T, index: number) => void) => {
-        let temp = this.head;
-        let index: number = 0;
-        while (temp != null) {
-            callBack(temp.getData(), index);
-            temp = temp.getNext();
-        }
-    };
+		let currentNode = this.head;
+		let currentIndex = 0;
 
-    public map = (callBack: (data: T, index: number) => T): T[] => {
-        let temp = this.head;
-        let arr: T[] = [];
-        let index: number = 0;
-        while (temp != null) {
-            arr.push(callBack(temp.getData(), index));
-            temp = temp.getNext();
-        }
-        return arr;
-    };
+		while (currentNode !== null && currentIndex < index) {
+			currentNode = currentNode.getNext();
+			currentIndex++;
+		}
 
-    public getSize = (): number => this.size + 1;
+		if (currentIndex === index && currentNode !== null) return currentNode;
+		else if (currentIndex < index) throw new Error("Range exceed error");
+		else throw new Error("No node found at the specified index");
+	};
+
+	public fromArray = (InputArray: T[]): void => {
+		this.clear();
+		this.push(...InputArray);
+	};
+
+	public addAt = (data: T, index: number): void => {
+		if (index > this.size) this.push(data);
+		if (index === 0) {
+			let currentNode = this.head;
+			this.head = new Node(data, currentNode);
+			return;
+		}
+		let currentNode = this.getNodeAt(index - 1);
+		let temp = currentNode.getNext();
+		currentNode.setNext(new Node<T>(data, temp));
+	};
+
+	public at = (index: number): T => {
+		let node = this.getNodeAt(index);
+		return node.getData();
+	};
+
+	public printList = (): void => {
+		let currentNode = this.head;
+		let line: string = "[";
+		if (currentNode === null) {
+			console.log("[]");
+			return;
+		}
+		do {
+			line += `${JSON.stringify(currentNode.getData())} -> `;
+			currentNode = currentNode.getNext();
+		} while (currentNode !== null);
+		console.log(line.slice(0, -4) + "]");
+	};
+
+	public forEach = (callBack: (data: T, index: number) => void) => {
+		let currentNode = this.head;
+		let index: number = 0;
+		while (currentNode !== null) {
+			callBack(currentNode.getData(), index);
+			currentNode = currentNode.getNext();
+		}
+	};
+
+	public map<ReturnTypeOfMap>(
+		callBack: (data: T, index: number) => ReturnTypeOfMap
+	): ReturnTypeOfMap[] {
+		let currentNode = this.head;
+		let arr: ReturnTypeOfMap[] = [];
+		let index: number = 0;
+		while (currentNode !== null) {
+			arr.push(callBack(currentNode.getData(), index));
+			currentNode = currentNode.getNext();
+		}
+		return arr;
+	}
+
+	public clear = (): void => {
+		let currentNode = this.head;
+		while (currentNode !== null) {
+			const nextNode = currentNode.getNext();
+			currentNode.setNext(null);
+			currentNode = nextNode;
+		}
+		this.head = null;
+		this.size = 0;
+	};
+
+	public getSize = (): number => this.size + 1;
 }
+
+let test = new LinkedList<number | string | Date>();
+test.fromArray([1, 2, 3, 4, 5]);
+test.addAt(99, 0);
+test.printList();
+test.addAt(12, 1);
+test.printList();
