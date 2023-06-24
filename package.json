@@ -1,18 +1,19 @@
 {
-	"name": "typescript-datastructures",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"compile": "npx tsc",
-		"start": "npx ts-node app.ts"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"devDependencies": {
-		"typescript": "^5.1.3"
-	},
+  "name": "typescript-datastructures",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+	"compile": "npx tsc",
+	"start": "npx ts-node app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  },
+
 	"dependencies": {
 		"@faker-js/faker": "^8.0.2",
 		"@types/bcrypt": "^5.0.0",
