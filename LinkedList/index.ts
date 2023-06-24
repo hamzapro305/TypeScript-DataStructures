@@ -133,10 +133,3 @@ export class LinkedList<T> {
 
 	public getSize = (): number => this.size + 1;
 }
-
-let test = new LinkedList<number | string | Date>();
-test.fromArray([1, 2, 3, 4, 5]);
-test.addAt(99, 0);
-test.printList();
-test.addAt(12, 1);
-test.printList();
