@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "rm -r dist && npx tsc"
+    "compile": "rm -r dist && npx tsc",
+    "start": "ts-node app.ts"
   },
   "keywords": [],
   "author": "",
